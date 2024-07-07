@@ -2,7 +2,10 @@
   "name": "react",
   "version": "1.0.0",
   "description": "react shared",
-  "main": "index.ts",
+  "module": "index.ts",
+  "dependencies": {
+    "shared": "workspace:*"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"
