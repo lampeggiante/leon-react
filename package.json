@@ -4,9 +4,28 @@
   "description": "Created for learning react",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "lint-staged",
+    "prepare": "husky"
   },
-  "keywords": ["react", "learn"],
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "eslint --cache --fix",
+      "git add"
+    ]
+  },
+  "keywords": [
+    "react",
+    "learn"
+  ],
   "author": "leon yu",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.6.0",
+    "eslint": "8",
+    "globals": "^15.8.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
+    "prettier": "^3.3.2",
+    "typescript-eslint": "^7.15.0"
+  }
 }
