@@ -10,7 +10,7 @@ export class FiberNode {
   key: Key
   stateNode: any
   return: FiberNode | null
-  silbing: FiberNode | null
+  sibling: FiberNode | null
   child: FiberNode | null
   index: number
   ref: Ref | null
@@ -29,7 +29,7 @@ export class FiberNode {
     /** 指向父FiberNode的指针 */
     this.return = null
     /** 指向兄弟节点 */
-    this.silbing = null
+    this.sibling = null
     /** 指向子节点 */
     this.child = null
     /** 兄弟节点中的序号 */

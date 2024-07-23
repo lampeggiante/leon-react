@@ -1,6 +1,8 @@
 import { beginWork } from "./beginWork"
+import { commitMutationEffects } from "./commitWork"
 import { completeWork } from "./completeWork"
 import { createWorkInProgress, FiberNode, FiberRootNode } from "./fiber"
+import { MutationMask, NoFlags } from "./fiberFlags"
 import { HostRoot } from "./workTag"
 
 let workInProgress: FiberNode | null = null
@@ -47,7 +49,36 @@ function renderRoot(root: FiberRootNode) {
   const finishedWork = root.current.alternate
   root.finishedWork = finishedWork
   /** wip fiberNode 树执行树中的具体操作 */
-  // commitRoot(root)
+  commitRoot(root)
+}
+
+function commitRoot(root: FiberRootNode) {
+  const finishedWork = root.finishedWork
+
+  if (!finishedWork) return
+
+  if (__DEV__) {
+    console.warn("commit阶段开始", finishedWork)
+  }
+
+  root.finishedWork = null
+
+  /** 三个子阶段是否存在三个子阶段要执行的操作 */
+  const subTreeHasEffect =
+    (finishedWork.subTreeFlags & MutationMask) !== NoFlags
+  const rootHasEffect = (finishedWork.flags & MutationMask) !== NoFlags
+
+  if (subTreeHasEffect || rootHasEffect) {
+    /** beforeMutation */
+
+    /** mutation Placement */
+    root.current = finishedWork
+    commitMutationEffects(finishedWork)
+
+    /** layout */
+  } else {
+    root.current = finishedWork
+  }
 }
 
 function workLoop() {
@@ -70,7 +101,7 @@ function completeUnitOfWork(fiber: FiberNode) {
   let node: FiberNode | null = fiber
   while (node) {
     completeWork(node)
-    const sibling = node.silbing
+    const sibling = node.sibling
     if (sibling) {
       workInProgress = sibling
       return

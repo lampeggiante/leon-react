@@ -54,12 +54,12 @@ function appendAllChildren(parent: FiberNode, wip: FiberNode) {
     }
     if (node === wip) return
 
-    while (!node.silbing) {
+    while (!node.sibling) {
       if (!node.return || node.return === wip) return
       node = node.return
     }
-    node.silbing.return = node.return
-    node = node.silbing
+    node.sibling.return = node.return
+    node = node.sibling
   }
 }
 
@@ -70,7 +70,7 @@ function bubbleProperties(wip: FiberNode) {
     subTreeFlags |= child.subTreeFlags
     subTreeFlags |= child.flags
     child.return = wip
-    child = child.silbing
+    child = child.sibling
   }
   wip.subTreeFlags |= subTreeFlags
 }
